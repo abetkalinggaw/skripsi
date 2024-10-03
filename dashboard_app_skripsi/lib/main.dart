@@ -15,7 +15,8 @@ class MainApp extends StatelessWidget {
 
       // home: const HomeScreen(),
       // home: BiodataScreen(),
-      home: LoginScreen(),
+      // home: LoginScreen(),
+      home: StartScreen(),
     );
   }
 }

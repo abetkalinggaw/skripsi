@@ -1,4 +1,4 @@
-import '/constant/services.dart';
+import '/constant/services.dart'; // Import the BiodataScreen
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const Center(child: Text('Home Content')),
     const Center(child: Text('Search Content')),
     const Center(child: Text('Profile Content')),
+    const BiodataScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -25,9 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SSAT Mobile App'),
-      ),
       body: _screens[_currentIndex],
       bottomNavigationBar: CustomNavBar(
         currentIndex: _currentIndex,

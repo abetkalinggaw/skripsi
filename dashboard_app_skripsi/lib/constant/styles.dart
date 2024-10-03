@@ -12,6 +12,7 @@ var fillInput = const Color(0xFFF7F8F9);
 var borderInput = const Color(0xFFDADADA);
 
 var darkBlue = const Color(0xFF1E232C);
+var lightBlue = const Color(0xFF337AB7);
 
 // TextStyles
 TextStyle bigTitle =
@@ -28,3 +29,8 @@ TextStyle heading3 =
     GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.w600);
 TextStyle heading4 =
     GoogleFonts.manrope(fontSize: 14, fontWeight: FontWeight.w600);
+
+TextStyle paragraphText =
+    GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.normal);
+TextStyle bodyText =
+    GoogleFonts.manrope(fontSize: 14, fontWeight: FontWeight.normal);

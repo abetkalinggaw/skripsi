@@ -15,6 +15,9 @@ class CustomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: onTap,
+      backgroundColor: white,
+      selectedItemColor: darkBlue,
+      unselectedItemColor: gray,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
@@ -27,6 +30,10 @@ class CustomNavBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.book), // Icon for Biodata
+          label: 'Biodata', // Label for Biodata
         ),
       ],
     );

@@ -11,6 +11,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false; // Loading state
 
   @override
   void dispose() {
@@ -62,25 +63,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                CustomButton(
-                  text: 'Login',
-                  onPressed: () {
-                    // TODO: Implement login logic
-                  },
-                  isPrimary: true,
-                ),
-                const SizedBox(height: 16),
-                CustomButton(
-                  text: 'Register',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterScreen()),
-                    );
-                  },
-                  isPrimary: false,
-                ),
+                _isLoading // Show loading indicator if true
+                    ? CircularProgressIndicator()
+                    : Column(
+                        children: [
+                          CustomButton(
+                            text: 'Login',
+                            onPressed: () async {
+                              setState(() {
+                                _isLoading = true; // Set loading to true
+                              });
+                              // Simulate a network call
+                              await Future.delayed(Duration(seconds: 2));
+                              setState(() {
+                                _isLoading = false; // Set loading to false
+                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()),
+                              );
+                            },
+                            isPrimary: true,
+                          ),
+                          const SizedBox(height: 16),
+                          CustomButton(
+                            text: 'Register',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RegisterScreen()),
+                              );
+                            },
+                            isPrimary: false,
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import '/constant/services.dart';
+import '/view/screens/home_screen.dart'; // Import the HomeScreen
 
 class BiodataScreen extends StatelessWidget {
   const BiodataScreen({super.key});
@@ -12,8 +13,21 @@ class BiodataScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Detail Mahasiswa'),
         backgroundColor: white,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          // Add back button
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+          },
+        ),
       ),
-      body: FutureBuilder<BiodataMahasiswa>(
+      body: FutureBuilder<BiodataCombined>(
         future: biodataController.fetchBiodata(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,57 +60,117 @@ class BiodataScreen extends StatelessWidget {
             );
           }
 
-          final biodata = snapshot.data!;
-          final infoList = [
-            InfoItem('Nama', biodata.nama),
-            InfoItem('Tempat Lahir', biodata.tempatLahir),
-            InfoItem('Tanggal Lahir', biodata.tanggalLahir),
-            InfoItem('Agama', biodata.agama),
-            InfoItem('Jenis Kelamin', biodata.jenisKelamin),
-            InfoItem('Golongan Darah', biodata.golonganDarah),
-            InfoItem('Kewarganegaraan', biodata.kewarganegaraan),
-            InfoItem('Alamat', biodata.alamat),
-            InfoItem('Kelurahan', biodata.kelurahan),
-            InfoItem('Kecamatan', biodata.kecamatan),
-            InfoItem('Kabupaten', biodata.kabupaten),
-            InfoItem('Provinsi', biodata.provinsi),
-            InfoItem('Kode Pos', biodata.kodePos),
-            InfoItem('No. HP', biodata.noHp),
-            InfoItem('Email', biodata.email),
-            InfoItem('Email Student', biodata.emailStudent),
-            InfoItem('NIK', biodata.nik),
-            InfoItem('No. Kartu Keluarga', biodata.noKartuKeluarga),
-            InfoItem('NISN', biodata.nisn),
-            InfoItem('No. BPJS', biodata.noBPJS),
+          final biodataMahasiswa = snapshot.data!.biodataMahasiswa;
+          final biodataOrangTua = snapshot.data!.biodataOrangTua;
+          final biodataSekolah = snapshot.data!.biodataSekolah;
+
+          final mahasiswaInfoList = [
+            InfoItem('Nama', biodataMahasiswa.nama),
+            InfoItem('Tempat Lahir', biodataMahasiswa.tempatLahir),
+            InfoItem('Tanggal Lahir', biodataMahasiswa.tanggalLahir),
+            InfoItem('Agama', biodataMahasiswa.agama),
+            InfoItem('Jenis Kelamin', biodataMahasiswa.jenisKelamin),
+            InfoItem('Golongan Darah', biodataMahasiswa.golonganDarah),
+            InfoItem('Warga Negara', biodataMahasiswa.kewarganegaraan),
+            InfoItem('Alamat', biodataMahasiswa.alamat),
+            InfoItem('Kelurahan', biodataMahasiswa.kelurahan),
+            InfoItem('Kecamatan', biodataMahasiswa.kecamatan),
+            InfoItem('Kabupaten', biodataMahasiswa.kabupaten),
+            InfoItem('Provinsi', biodataMahasiswa.provinsi),
+            InfoItem('Kode Pos', biodataMahasiswa.kodePos),
+            InfoItem('No. HP', biodataMahasiswa.noHp),
+            InfoItem('Email', biodataMahasiswa.email),
+            InfoItem('Email Student', biodataMahasiswa.emailStudent),
+            InfoItem('NIK', biodataMahasiswa.nik),
+            InfoItem('No. KK', biodataMahasiswa.noKartuKeluarga),
+            InfoItem('NISN', biodataMahasiswa.nisn),
+            InfoItem('No. BPJS', biodataMahasiswa.noBPJS),
           ];
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                child: Text(
-                  'Mahasiswa',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          final orangTuaInfoList = [
+            InfoItem('Nama Orang Tua', biodataOrangTua.namaOrangTua),
+            InfoItem('Alamat', biodataOrangTua.alamatOrangTua),
+            InfoItem('Kabupaten', biodataOrangTua.kabupatenOrangTua),
+            InfoItem('Provinsi', biodataOrangTua.provinsiOrangTua),
+            InfoItem('No. HP', biodataOrangTua.noHpOrangTua),
+            InfoItem('Pekerjaan', biodataOrangTua.pekerjaanOrangTua),
+          ];
+
+          final sekolahInfoList = [
+            InfoItem('Nama Sekolah', biodataSekolah.namaSekolah),
+            InfoItem('Alamat Sekolah', biodataSekolah.alamatSekolah),
+            InfoItem('Kabupaten Sekolah', biodataSekolah.kabupatenSekolah),
+            InfoItem('Provinsi Sekolah', biodataSekolah.provinsiSekolah),
+            InfoItem('Jurusan', biodataSekolah.jurusan),
+          ];
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  child: Text(
+                    'Mahasiswa',
+                    style: heading2,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  itemCount: infoList.length,
-                  itemBuilder: (context, index) {
-                    return InfoRow(
-                      label: infoList[index].label,
-                      value: infoList[index].value ?? 'N/A',
-                    );
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: InfoList(infoList: mahasiswaInfoList),
                 ),
-              ),
-            ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  child: Text(
+                    'Orang Tua',
+                    style: heading2,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: InfoList(infoList: orangTuaInfoList),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  child: Text(
+                    'Sekolah',
+                    style: heading2,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: InfoList(infoList: sekolahInfoList),
+                ),
+              ],
+            ),
           );
         },
       ),
+    );
+  }
+}
+
+class InfoList extends StatelessWidget {
+  final List<InfoItem> infoList;
+
+  const InfoList({super.key, required this.infoList});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      itemCount: infoList.length,
+      itemBuilder: (context, index) {
+        return InfoRow(
+          label: infoList[index].label,
+          value: infoList[index].value ?? 'N/A',
+        );
+      },
     );
   }
 }
@@ -133,21 +207,22 @@ class InfoRow extends StatelessWidget {
                 Expanded(
                   child: Text(
                     label,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: heading4,
                     textAlign: TextAlign.left,
                   ),
                 ),
-                const Text(
+                Text(
                   ':',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 5),
           Expanded(
             child: Text(
               value,
+              style: heading4,
               softWrap: true,
             ),
           ),
